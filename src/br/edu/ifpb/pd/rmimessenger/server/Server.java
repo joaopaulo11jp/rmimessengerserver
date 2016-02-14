@@ -10,18 +10,18 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Server {
-	private static String operadora = "VIVO";
+	private final static String MESSENGERNAME = "chat";
 		
 	public static void main(String args[]) throws RemoteException{
 	     LocateRegistry.createRegistry(Registry.REGISTRY_PORT);
 	     try {
 	      	System.out.println("Server working...");
-	        Naming.bind("VIVO", new Operadora());
-	        System.out.println("Operadora "+operadora+" Aberta!!!");
+	        Naming.bind(MESSENGERNAME, new Messenger());
+	        System.out.println("Server intialized!!!");
 	     } catch (AlreadyBoundException ex) {
-	         Logger.getLogger(Operadora.class.getName()).log(Level.SEVERE, null, ex);
+	         Logger.getLogger(Messenger.class.getName()).log(Level.SEVERE, null, ex);
 	     } catch (MalformedURLException ex) {
-	         Logger.getLogger(Operadora.class.getName()).log(Level.SEVERE, null, ex);
+	         Logger.getLogger(Messenger.class.getName()).log(Level.SEVERE, null, ex);
 	     }
 	}
 }
