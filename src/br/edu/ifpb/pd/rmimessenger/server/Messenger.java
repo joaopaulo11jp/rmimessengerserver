@@ -19,7 +19,11 @@ public class Messenger extends UnicastRemoteObject implements MessengerIF{
 
 	@Override
 	public void joinMessenger(ClientIF client) throws RemoteException {
-		this.clients.put(client.getName(), client);		
+		if(this.clients.get(client.getName()) == null)
+			this.clients.put(client.getName(), client);
+		else{
+			// Erro de usuário já existente
+		}
 	}
 
 	@Override
