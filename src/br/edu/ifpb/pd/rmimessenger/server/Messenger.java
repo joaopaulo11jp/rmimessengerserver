@@ -2,6 +2,7 @@ package br.edu.ifpb.pd.rmimessenger.server;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.HashMap;
 import java.util.Map;
 
 import br.edu.ifpb.pd.rmimessenger.interfaces.ClientIF;
@@ -13,13 +14,12 @@ public class Messenger extends UnicastRemoteObject implements MessengerIF{
 	private Map<String, ClientIF> clients;
 	
 		public Messenger() throws RemoteException{
-			
+			this.clients = new HashMap<String,ClientIF>();
 		}
 
 	@Override
 	public void joinMessenger(ClientIF client) throws RemoteException {
-		// TODO Auto-generated method stub
-		
+		this.clients.put(client.getName(), client);		
 	}
 
 	@Override
