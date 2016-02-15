@@ -3,6 +3,7 @@ package br.edu.ifpb.pd.rmimessenger.server;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import br.edu.ifpb.pd.rmimessenger.interfaces.ClientIF;
@@ -19,24 +20,29 @@ public class Messenger extends UnicastRemoteObject implements MessengerIF{
 
 	@Override
 	public void joinMessenger(ClientIF client) throws RemoteException {
-		if(this.clients.get(client.getName()) == null)
+		if(this.clients.get(client.getName()) == null){
 			this.clients.put(client.getName(), client);
-		else{
+			System.out.println(client.getName()+" entrou no chat!");
+		}else{
 			// Erro de usuário já existente
 		}
 	}
 
 	@Override
 	public void sendPublicMessage(String msg) throws RemoteException {
-		// TODO Auto-generated method stub
+		Iterator it = this.clients.values().iterator();
+		ClientIF client = null;
 		
+		while(it.hasNext()){
+			client = (ClientIF) it.next();
+			client.message(msg);
+		}
 	}
 
 	@Override
 	public void sendPrivateMessage(String user, String msg)
 			throws RemoteException {
-		// TODO Auto-generated method stub
-		
+		this.clients.get(user).message(msg);		
 	}
 	
 }
