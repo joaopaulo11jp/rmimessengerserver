@@ -36,7 +36,7 @@ public class Messenger extends UnicastRemoteObject implements MessengerIF{
 		
 		while(it.hasNext()){
 			client = (ClientIF) it.next();
-			client.message(fromUser+" : "+msg);
+			client.message(fromUser+" : "+msg+"\n");
 		}
 	}
 
