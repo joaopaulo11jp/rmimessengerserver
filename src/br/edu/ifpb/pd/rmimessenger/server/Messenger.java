@@ -2,6 +2,8 @@ package br.edu.ifpb.pd.rmimessenger.server;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -36,17 +38,23 @@ public class Messenger extends UnicastRemoteObject implements MessengerIF{
 		
 		while(it.hasNext()){
 			client = (ClientIF) it.next();
-			client.message(fromUser+" : "+msg+"\n");
+			client.message(fromUser+" : "+msg+" "+new SimpleDateFormat("dd/MM/yyyy HH:mm").format(new Date())+"\n");
 		}
 	}
 
 	@Override
 	public boolean sendPrivateMessage(String fromUser,String user, String msg)
 			throws RemoteException {
-		if(this.clients.get(user) != null) this.clients.get(user).message(msg);
+		if(this.clients.get(user) != null) this.clients.get(user).message(fromUser+msg+" "+new SimpleDateFormat("dd/MM/yyyy HH:mm").format(new Date())+"\n");
 		else return false;
 		
 		return true;
+	}
+
+	@Override
+	public void exitMessenger(ClientIF client) throws RemoteException {
+		System.out.println(client.getName()+" saiu do chat!");
+		this.clients.remove(client.getName());
 	}
 	
 }
