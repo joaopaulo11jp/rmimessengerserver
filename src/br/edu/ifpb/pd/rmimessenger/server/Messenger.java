@@ -19,30 +19,34 @@ public class Messenger extends UnicastRemoteObject implements MessengerIF{
 		}
 
 	@Override
-	public void joinMessenger(ClientIF client) throws RemoteException {
+	public boolean joinMessenger(ClientIF client) throws RemoteException {
 		if(this.clients.get(client.getName()) == null){
 			this.clients.put(client.getName(), client);
 			System.out.println(client.getName()+" entrou no chat!");
+			return true;
 		}else{
-			// Erro de usuário já existente
+			return false;
 		}
 	}
 
 	@Override
-	public void sendPublicMessage(String msg) throws RemoteException {
+	public void sendPublicMessage(String fromUser,String msg) throws RemoteException {
 		Iterator it = this.clients.values().iterator();
 		ClientIF client = null;
 		
 		while(it.hasNext()){
 			client = (ClientIF) it.next();
-			client.message(msg);
+			client.message(fromUser+" : "+msg);
 		}
 	}
 
 	@Override
-	public void sendPrivateMessage(String user, String msg)
+	public boolean sendPrivateMessage(String fromUser,String user, String msg)
 			throws RemoteException {
-		this.clients.get(user).message(msg);		
+		if(this.clients.get(user) != null) this.clients.get(user).message(msg);
+		else return false;
+		
+		return true;
 	}
 	
 }
