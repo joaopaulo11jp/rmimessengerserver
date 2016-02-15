@@ -45,8 +45,10 @@ public class Messenger extends UnicastRemoteObject implements MessengerIF{
 	@Override
 	public boolean sendPrivateMessage(String fromUser,String user, String msg)
 			throws RemoteException {
-		if(this.clients.get(user) != null) this.clients.get(user).message(fromUser+msg+" "+new SimpleDateFormat("dd/MM/yyyy HH:mm").format(new Date())+"\n");
-		else return false;
+		if(this.clients.get(user) != null){ 
+			this.clients.get(fromUser).message(fromUser+" (PVT recebido): "+msg+" "+new SimpleDateFormat("dd/MM/yyyy HH:mm").format(new Date())+"\n");
+			this.clients.get(user).message(fromUser+" (PVT enviado para"+user+"): "+msg+" "+new SimpleDateFormat("dd/MM/yyyy HH:mm").format(new Date())+"\n");
+		}else return false;
 		
 		return true;
 	}
