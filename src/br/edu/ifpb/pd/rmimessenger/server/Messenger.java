@@ -3,6 +3,8 @@ package br.edu.ifpb.pd.rmimessenger.server;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -23,8 +25,18 @@ public class Messenger extends UnicastRemoteObject implements MessengerIF{
 	@Override
 	public boolean joinMessenger(ClientIF client) throws RemoteException {
 		if(this.clients.get(client.getName()) == null){
+			Iterator<ClientIF> it;
+			Collection<String> list = new ArrayList<String>();
+			
 			this.clients.put(client.getName(), client);
 			System.out.println(client.getName()+" entrou no chat!");
+			
+			it = this.clients.values().iterator();
+			list.addAll(this.clients.keySet());
+			while(it.hasNext()){
+				it.next().setUserList(list);
+			}
+			
 			return true;
 		}else{
 			return false;
